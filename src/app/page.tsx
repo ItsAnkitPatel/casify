@@ -108,7 +108,7 @@ export default function Home() {
                 src="/your-image.png"
                 alt=""
               />
-              {/* Corner edge line image */}
+              {/* Corner dotted edge line image */}
               <img
                 className="absolute w-20 -left-6 -bottom-6 select-none"
                 src="/line.png"
@@ -120,6 +120,8 @@ export default function Home() {
           </div>
         </MaxWidthWrapper>
       </section>
+
+      {/* ------------------------------------------------------------------------------------------------------ */}
 
       {/* Value proposition section: Basically what our customer say about the product*/}
       <section className="bg-slate-100 py-24">
@@ -231,6 +233,11 @@ export default function Home() {
         <div className="pt-16">
           <Reviews />
         </div>
+      </section>
+      {/* ------------------------------------------------------------------------------------------------ */}
+
+      <section>
+        
       </section>
     </div>
   );
