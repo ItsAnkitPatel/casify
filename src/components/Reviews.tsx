@@ -97,7 +97,7 @@ function Review({ imgSrc, className, ...props }: ReviewProps) {
     <div
       className={cn(
         "animate-fade-in rounded-[2.25rem] bg-white p-6 opacity-0 shadow-xl shadow-slate-900/5",
-        className
+        className,
       )}
       style={{ animationDelay }}
       {...props}
@@ -128,7 +128,7 @@ function ReviewGrid() {
     >
       {isInView ? (
         <>
-        {/* If we on a smaller we want to show single column then this one will be used */}
+          {/* If we on a smaller we want to show single column then this one will be used */}
           <ReviewColumn
             reviews={[...column1, ...column3.flat(), ...column2]}
             reviewClassName={(reviewIndex) =>
@@ -156,8 +156,8 @@ function ReviewGrid() {
       ) : null}
 
       {/* Top and bottom fade illusion*/}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-slate-100"/>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-slate-100 "/>
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-slate-100" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-slate-100" />
     </div>
   );
 }
@@ -167,7 +167,7 @@ function Reviews() {
       <img
         aria-hidden="true"
         src="/what-people-are-buying.png"
-        className="absolute select-none hidden xl:block -left-32 top-1/3"
+        className="absolute -left-32 top-1/3 hidden select-none xl:block"
       />
 
       <ReviewGrid />
