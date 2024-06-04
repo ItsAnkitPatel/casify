@@ -29,8 +29,8 @@ export default function Home() {
               <p className="mt-8 max-w-prose text-balance text-center text-lg md:text-wrap lg:pr-10 lg:text-left">
                 Capture your favorite memories with your own,{" "}
                 <span className="font-semibold">one-of-one</span> phone case.
-                Casify allows you to protect your memories, not just your
-                phone case.
+                Casify allows you to protect your memories, not just your phone
+                case.
               </p>
 
               {/* List items: Highlights */}

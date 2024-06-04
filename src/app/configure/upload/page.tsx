@@ -17,7 +17,7 @@ const page = () => {
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const router = useRouter();
 
-  const { startUpload , isUploading} = useUploadThing("imageUploader", {
+  const { startUpload, isUploading } = useUploadThing("imageUploader", {
     onClientUploadComplete: ([data]) => {
       const configId = data.serverData.configId;
       startTransition(() => {
