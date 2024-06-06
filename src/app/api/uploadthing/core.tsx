@@ -1,6 +1,7 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { z } from "zod";
-
+import sharp from "sharp";
+import { db } from "@/db";
 const f = createUploadthing();
 
 const auth = (req: Request) => ({ id: "fakeId" }); // Fake auth function
@@ -16,7 +17,34 @@ export const ourFileRouter = {
     })
     .onUploadComplete(async ({ metadata, file }) => {
       const { configId } = metadata.input;
-      return { configId };
+      // Fetching the image
+      const res = await fetch(file.url);
+      const buffer = await res.arrayBuffer();
+
+      const imgMetadata = await sharp(buffer).metadata();
+      const { width, height } = imgMetadata;
+      // In step 2 of (where user uploads the image) we need to create configId
+      if (!configId) {
+        const configuration = await db.configuration.create({
+          data: {
+            imageUrl: file.url,
+            height: height || 500,
+            width: width || 500,
+          },
+        });
+        return { configId: configuration.id };
+      } else {
+        const updateConfiguration = await db.configuration.update({
+          where: {
+            id: configId,
+          },
+          data: {
+            // This is the cropped image url
+            croppedImageUrl: file.url,
+          },
+        });
+        return { configId: updateConfiguration.id };
+      }
     }),
 } satisfies FileRouter;
 
