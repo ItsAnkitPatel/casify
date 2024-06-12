@@ -19,7 +19,7 @@ import {
 } from "@/validators/option-validator";
 import { RadioGroup } from "@headlessui/react";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { ArrowRight, Check, ChevronsUpDown } from "lucide-react";
 import NextImage from "next/image";
 import { useState } from "react";
 import { Rnd } from "react-rnd";
@@ -190,7 +190,7 @@ const DesignConfigurator = ({
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
-               {/* Pricing */}
+                {/* Pricing */}
                 {[MATERIALS, FINISHES].map(
                   ({ name, options: selectableOptions }) => (
                     <RadioGroup
@@ -261,13 +261,21 @@ const DesignConfigurator = ({
           </div>
         </ScrollArea>
 
-        <div className="w-full px-8 h-16 bg-white">
-          <div className="h-px w-full bg-zinc-200"/>
-          <div className="w-full flex justify-end items-center">
-            <div className="w-full flex gap-6 items-center">
-              <p className="font-medium whitespace-nowrap">
-                {formatPrice(BASE_PRICE/100)}
+        <div className="h-16 w-full bg-white px-8">
+          <div className="h-px w-full bg-zinc-200" />
+          <div className="flex w-full items-center justify-end">
+            <div className="flex w-full items-center gap-6">
+              <p className="whitespace-nowrap font-medium">
+                {formatPrice(
+                  (BASE_PRICE + options.finish.price + options.material.price) /
+                    100,
+                )}
               </p>
+
+              <Button size="sm" className="w-full">
+                Continue
+                <ArrowRight className="size-4 ml-1.5 inline" />
+              </Button>
             </div>
           </div>
         </div>
