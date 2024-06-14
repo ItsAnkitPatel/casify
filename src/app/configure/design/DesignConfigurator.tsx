@@ -21,11 +21,14 @@ import {
 } from "@/validators/option-validator";
 import { RadioGroup } from "@headlessui/react";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import { ArrowRight, Check, ChevronsUpDown } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import { ArrowRight, Check, ChevronsUpDown, Loader2 } from "lucide-react";
 import NextImage from "next/image";
 import { describe } from "node:test";
 import { useRef, useState } from "react";
 import { Rnd } from "react-rnd";
+import { saveConfig as _saveConfig, SaveConfigArgs } from "./actions";
+import { useRouter } from "next/navigation";
 interface DesignConfiguratorProps {
   configId: string;
   imageUrl: string;
@@ -37,6 +40,26 @@ const DesignConfigurator = ({
   imageDimensions,
 }: DesignConfiguratorProps) => {
   const { toast } = useToast();
+
+  const router = useRouter();
+  // save cropped image and update db
+  const { mutate: saveConfig } = useMutation({
+    mutationKey: ["save-config"],
+    mutationFn: async (args: SaveConfigArgs) => {
+      await Promise.all([saveConfiguration(), _saveConfig(args)]);
+    },
+    onError: () => {
+      toast({
+        title: "Something went wrong",
+        description: "There was an error on our server end. Please try again",
+        variant: "destructive",
+      });
+    },
+    onSuccess: () => {
+      router.push(`/configure/preview?id=${configId}`);
+    },
+  });
+
   const [options, setOptions] = useState<{
     color: (typeof COLORS)[number];
     model: (typeof MODELS.options)[number];
@@ -61,7 +84,9 @@ const DesignConfigurator = ({
   const phoneCaseRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const { startUpload } = useUploadThing("imageUploader");
+  const { startUpload, isUploading } = useUploadThing("imageUploader");
+
+  // saving the cropped image
   async function saveConfiguration() {
     if (!phoneCaseRef.current) return;
     try {
@@ -97,17 +122,18 @@ const DesignConfigurator = ({
         renderedDimension.width,
         renderedDimension.height,
       );
-
+      // Converting the cropped image into base64 encoding
       const base64 = canvas.toDataURL();
       const base64Data = base64.split(",")[1];
 
       const blob = base64ToBlob(base64Data, "image/png");
 
+      // This is the image
       const file = new File([blob], "filename.png", { type: "image/png" });
 
       await startUpload([file], { configId });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       toast({
         title: "Something went wrong",
         description: "There was a problem saving your image, please try again",
@@ -377,13 +403,25 @@ const DesignConfigurator = ({
 
               <Button
                 onClick={() => {
-                  saveConfiguration();
+                  saveConfig({
+                    configId,
+                    color: options.color.value,
+                    finish: options.finish.value,
+                    material: options.material.value,
+                    model: options.model.value,
+                  });
                 }}
                 size="sm"
                 className="w-full"
               >
-                Continue
-                <ArrowRight className="ml-1.5 inline size-4" />
+                {isUploading ? (
+                  <Loader2 className="animate-spin "/>
+                ) : (
+                  <>
+                    Continue
+                    <ArrowRight className="ml-1.5 inline size-4" />
+                  </>
+                )}
               </Button>
             </div>
           </div>
