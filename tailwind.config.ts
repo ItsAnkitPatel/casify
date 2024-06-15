@@ -59,7 +59,6 @@ const config = {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
-        
         "fade-in": {
           from: {
             opacity: "0",
@@ -73,10 +72,15 @@ const config = {
             transform: "translateY(-50%)",
           },
         },
+        flashing: {
+          "0%, 100%": { opacity: "0.2" },
+          "20%": { opacity: "1" },
+        },
       },
       animation: {
-        "marquee": "marquee var(--marquee-duration) linear infinite",
+        marquee: "marquee var(--marquee-duration) linear infinite",
         "fade-in": "fade-in 0.5s linear forwards",
+        flashing: "flashing 1.4s infinite linear",
       },
     },
   },
