@@ -23,9 +23,10 @@ enum PhoneModel {
 }
 
 enum CaseMaterial {
- silicone
- polycarbonate
+  silicone
+  polycarbonate
 }
+
 enum CaseFinish {
   smooth
   textured
@@ -36,14 +37,15 @@ enum CaseColor {
   blue
   rose
 }
-model configuration{
-  id String @id @default(cuid())
-  width Int
-  height Int
-  imageUrl String
-  color CaseColor?
-  model PhoneModel?
-  material CaseMaterial?
-  finish CaseFinish?
+
+model configuration {
+  id              String        @id @default(cuid())
+  width           Int
+  height          Int
+  imageUrl        String
+  color           CaseColor?
+  model           PhoneModel?
+  material        CaseMaterial?
+  finish          CaseFinish?
   croppedImageUrl String?
 }
