@@ -2,6 +2,8 @@
 
 Built with the Next.js 14 App Router, Postgres, TypeScript, Tailwind & Kinde Auth
 
+![Casify-Project](https://github.com/ItsAnkitPatel/casify/assets/163109788/0b9603b9-5c41-4644-bf7e-8b111ddf31cd)
+
 
 
 ## Getting started
